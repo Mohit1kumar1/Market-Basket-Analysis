@@ -174,8 +174,10 @@ library(arulesViz)
 library(dplyr)
 library(ggplot2)
 
+my_data <- read_excel("Online Retail.xlsx")
+
 # Convert data to transactions format
-transactions <- as(split(data$Description, data$InvoiceNo), "transactions")
+transactions <- as(split(my_data$Description, my_data$InvoiceNo), "transactions")
 
 # Apply Apriori Algorithm
 rules <- apriori(transactions, parameter = list(support = 0.01, confidence = 0.3))
@@ -200,6 +202,10 @@ d <- ggplot(top_rules, aes(x = reorder(LHS, lift), y = lift, fill = RHS)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ggplotly(d)
+```
+
+```{r}
+rmarkdown::render("Online Retail.xlsx", output_file = "html_document")
 ```
 
 \`\`\`
